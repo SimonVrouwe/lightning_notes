@@ -3,10 +3,11 @@ GOAL: We want stable channels in adverse scenarios
 
 Fee estimation handling for different lightning implementations:
 
-Relevant chapter in BOLT: https://github.com/lightningnetwork/lightning-rfc/blob/master/02-peer-protocol.md#updating-fees-update_fee
+Relevant chapter in:
+- BOLT#2: https://github.com/lightningnetwork/lightning-rfc/blob/master/02-peer-protocol.md#updating-fees-update_fee
+- BOLT#3: https://github.com/lightningnetwork/lightning-rfc/blob/master/03-transactions.md#fees
 
 What happens when a non-funding node detect a fee estimate spike:
-
 
 
 c-lightning: passive/ignores
@@ -34,6 +35,11 @@ and: https://github.com/ACINQ/eclair/blob/82973cdb76a982011a67d995c42311169049f6
 poll-interval = 600s, code: https://github.com/ACINQ/eclair/blob/82973cdb76a982011a67d995c42311169049f6cb/eclair-core/src/main/scala/fr/acinq/eclair/Setup.scala#L154
 
 Incentives:
+BOLT#3 states:
+> The fee calculation for both commitment transactions and HTLC transactions is based on the current feerate_per_kw
+and
+> Base commitment transaction fees are extracted from the funder's amount
+
 Both nodes want timeply processing of commitment transactions, so both nodes care that transaction fees are not too low. The channel-funding node pays the fees in the commitment transaction, so it also cares that fees are not too high. Fees in HTLC-Timeout and HTLC-Succes transactions are payed by the recipient of their output, which can be either node in any case (spend via penalty-clause or delayed-clause). So when a commitment transaction contains an HTLC output, the non-funding node also cares that fees are not too high.
 Simplified: when a commitment transaction contains HTLC's, both nodes care that channel feerate is not too low and not too high! 
 
