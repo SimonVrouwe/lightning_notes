@@ -37,7 +37,9 @@ poll-interval = 600s, code: https://github.com/ACINQ/eclair/blob/82973cdb76a9820
 Incentives:
 BOLT#3 states:
 > The fee calculation for both commitment transactions and HTLC transactions is based on the current feerate_per_kw
+
 and
+
 > Base commitment transaction fees are extracted from the funder's amount
 
 Both nodes want timeply processing of commitment transactions, so both nodes care that transaction fees are not too low. The channel-funding node pays the fees in the commitment transaction, so it also cares that fees are not too high. Fees in HTLC-Timeout and HTLC-Succes transactions are payed by the recipient of their output, which can be either node in any case (spend via penalty-clause or delayed-clause). So when a commitment transaction contains an HTLC output, the non-funding node also cares that fees are not too high.
